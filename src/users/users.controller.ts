@@ -7,15 +7,20 @@ import {
   Query,
   Headers,
   Ip,
+  ParseIntPipe,
+  DefaultValuePipe,
 } from '@nestjs/common';
 
 @Controller('users')
 export class UsersController {
-  @Get('/:id/:optional?')
-  getUsers(@Param('id') id: any, @Query('limit') limit: any) {
-    console.log(id);
-
-    console.log(limit);
+  @Get('/:id')
+  getUsers(
+    @Param('id', ParseIntPipe) id: string | undefined,
+    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number,
+    @Query('page', new DefaultValuePipe(10)) page: number,
+  ) {
+    console.log(typeof limit);
+    console.log(typeof limit);
     return 'You Send requests to the end point';
   }
 
